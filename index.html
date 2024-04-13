@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: blue;
+            text-align: center;
+        }
+        h2{
+            color:yellow;
+            font-size: 1.5em;
+        }
+        h3{
+            color:rgb(183, 255, 0);
+            font-size: 2em;
+        }
+        .up{
+            background-color:rgb(83, 142, 77);
+            width: 40%;
+            margin: 1% 4% 1% 4%;
+            padding:1%;
+            float: left;
+        }
+        h4{
+            color:rgb(229, 255, 0);
+            font-size: 1.5rem;
+        }
+        .b{
+            background-color: rgb(213, 160, 27);
+            padding: 2%;
+            font-size: 1.5em;
+            border-radius: 30%;
+            color: rgb(255, 89, 0);
+        }
+    </style>
+</head>
+<body>
+    <button style="border-radius: 50%;background-color: yellow;color:red;padding:120px 50px 120px 50px;font-size:2em;font-weight: bold;" onclick="c()">Click for Energy</button>
+    <h2>Energy: <span id="e">0</span></h2>
+    <h2>Energy per Click: <span id="epc">1</span></h2>
+    <h2>Energy per Second: <span id="eps">0</span></h2>
+    <div style="background-color: rgb(108, 108, 108);width:100;padding:1%;overflow: auto;" id="u">
+        <h1 style="color:rgb(111, 255, 0);">Upgrades</h1>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        d=[["Labour", 10, 1, 0], ["Mill", 50, 3, 0], ["Fire", 200, 0, 1], ["Coal Plant", 500, 1, 3], ["Wind Turbines", 600, 0, 5], ["Solar Array", 800, 2, 7], ["Nuclear Reactor", 1200, 3, 10], ["Nuclear Fusion Plant", 3000, 5, 20], ["Dark Energy Harness", 10000, 10, 100], ["Antimatter Factory", 50000, 50, 300]]
+        function g(i){
+            return Number($('#'+i).html())
+        }
+        function inc(i, v){
+            if(g(i)+v>-1){
+                $('#'+i).html(g(i)+v)
+                return true
+            }else{
+                return false;
+            }
+        }
+        function c(){
+            inc("e", g("epc"))
+        }
+        function b(i){
+            if(inc("e", -g(i))){
+                inc("epc", g(i+"c"))
+                inc("eps", g(i+"s"))
+                inc(i, Math.floor(g(i)/2))
+            }
+        }
+        for(var i=0;i<d.length;i++){
+            $("#u").append(`<div class="up"><h3>${d[i][0]}</h3><h4>Cost: <span id="${i}">${d[i][1]}</span> energy<br>+<span id="${i}c">${d[i][2]}</span> epc<br>+<span id="${i}s">${d[i][3]}</span> eps<br></h4><button class="b" onclick="b(${i})">Buy</button></div>`)
+        }
+        setInterval(function(){
+            inc("e", g("eps"))
+        }, 1000)
+    </script>
+</body>
+</html>
